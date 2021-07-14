@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class App
+class Task
+class ToDoList
+
+class App {
+TableView<TodoList> todoList
+ObservableList<TodoList> toDoListData
+TableView<Task> tableChron
+void start()
+}
+
+class Task {
+SimpleStringProperty description
+SimpleStringProperty dueDate
+SimpleBooleanProperty completed
+SimpleStringProperty getDescription()
+void setDescription()
+SimpleStringProperty getDueDate()
+void setDuedate()
+SimpleBooleanProperty isCompleted()
+void setCompleted()
+}
+
+class ToDoList {
+SimpleStringProperty title
+ObservableList<Task> tasks
+SimpleStringProperty getTitle()
+void setTitle()
+ObservableList<Task> getTasks()
+void addTask()
+}
+
+@enduml
