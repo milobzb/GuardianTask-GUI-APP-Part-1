@@ -1,0 +1,28 @@
+@Test
+testFilterList() {
+   TodoList list = new TodoList(gtesth); //Create new list
+   Task task = new Task("Description", "2021-12-11"); //Create new task
+   task.setCompleted(true); //Set task to completed
+   list.addTask(task); //Add task to list
+   list.setShowComplete(false); //Make list not show completed items
+   assert (list.getTasks().isEmpty()); //List should be empty since only item in it is completed
+}
+
+@Test
+testSavingAndLoading() {
+   TodoList list = new TodoList(gtesth); //Create new list
+   Task task = new Task("Description", "2021-12-11"); //Create new task
+   list.addTask(task); //Add task to list
+   list.saveList(new File("test.txt")); //Save list to test.txt
+   list.readList(new File("test.txt")); //Load list from test.txt
+   assert (list.getTasks().get(0).getDescription() == "Description"); //Check that the only item in the list has the same description
+}
+
+@Test
+testClearingList() {
+   TodoList list = new TodoList(gtesth); //Create new list
+   Task task = new Task("Description", "2021-12-11"); //Create new task
+   list.addTask(task); //Add task to list
+   list.clearTasks(); //Empty list
+   assert (list.getTasks().isEmpty()); //Assert that it should be empty
+}
