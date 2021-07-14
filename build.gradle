@@ -1,4 +1,7 @@
-plugins { id 'java' }
+plugins {
+    id 'application'
+    id 'com.dua3.javafxgradle7plugin' version '0.0.9'
+}
 group 'ucf.assignments'
 version '1.0-SNAPSHOT'
 
@@ -7,6 +10,14 @@ repositories { mavenCentral() }
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
 }
 
 test { useJUnitPlatform() }
+
+javafx {
+    version = "16"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+mainClassName = 'ucf.assignments.App'
