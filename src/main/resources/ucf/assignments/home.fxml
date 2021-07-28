@@ -48,12 +48,12 @@
 <?import javafx.scene.control.TableColumn?>
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.HomeController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar  VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="File">
+        <Menu mnemonicParsing="false" text="File" fx:id="menuContainer">
           <items>
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <MenuItem mnemonicParsing="false" text="Save"/>
+            <MenuItem mnemonicParsing="false" fx:id="menuOpen" text="Open…" onAction="#onOpen" />
+            <MenuItem mnemonicParsing="false" fx:id="menuSave" text="Save" onAction="#onSave"/>
           </items>
         </Menu>
       </menus>

@@ -11,9 +11,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ToDoListController implements Initializable {
@@ -44,6 +45,8 @@ public class ToDoListController implements Initializable {
 
     protected TableView<Task> allList = new TableView<>();
 
+
+
     @FXML
     protected TableColumn<Task, String> col_description;
 
@@ -52,6 +55,8 @@ public class ToDoListController implements Initializable {
 
     @FXML
     protected TableColumn<Task, String> col_completed;
+
+    private TodoList m_todoList = null;
 
     @FXML
     protected void addHandler(ActionEvent e) {
@@ -98,6 +103,85 @@ public class ToDoListController implements Initializable {
         }
     }
 
+    @FXML
+    protected void onSave(ActionEvent e) {
+        saveTaskList();
+    }
+
+    @FXML
+    protected void onOpen(ActionEvent e) {
+        loadTaskList();
+    }
+
+    public void loadTaskList() {
+        allList.getItems().clear();
+        try {
+            FileReader fr = new FileReader( m_todoList.getTitle() + ".txt");
+            BufferedReader br = new BufferedReader(fr);
+
+            String line = "";
+            String description = "";
+            String due_date = "";
+            String completed = "";
+            int i = 0;
+            while((line = br.readLine()) != null)
+            {
+                if( i % 3 == 0 ) // description
+                    description = line;
+                if( i % 3 == 1 ) // due date
+                    due_date = line;
+                if( i % 3 == 2 ) // completed
+                {
+                    completed = line;
+                    var newTask = new Task(description, due_date);
+                    if( completed.equals("Completed") )
+                        newTask.markCompleted();
+
+                    allList.getItems().add(newTask);
+                }
+                i++;
+            }
+            fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(toggleTable.getText().equals("Completed")) {
+            taskList.setItems(allList.getItems().filtered((task) -> {
+                return task.getCompleted().equals("Completed");
+            }));
+
+        } else if (toggleTable.getText().equals("Due")) {
+            taskList.setItems(allList.getItems().filtered((task) -> {
+                return task.getCompleted().equals("Due");
+            }));
+        } else {
+            taskList.setItems(allList.getItems());
+            toggleTable.setText("All");
+        }
+
+    }
+
+    public void saveTaskList() {
+        // whenever add new list, save it to external storage
+        List<Task> list = allList.getItems();
+        try {
+            FileWriter writer = new FileWriter(m_todoList.getTitle() + ".txt");
+
+            for (int i = 0; i < list.size(); i++) {
+                Task item = list.get(i);
+                writer.write(item.getDescription() + "\n");
+                writer.write(item.getDueDate() + "\n");
+                writer.write(item.getCompleted() + "\n");
+            }
+            writer.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         col_description.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -133,6 +217,8 @@ public class ToDoListController implements Initializable {
     public void setToDoList(TodoList list) {
         this.allList.setItems(list.getTasks());
         this.taskList.setItems(allList.getItems());
+
+        m_todoList = list;
     }
 
     @FXML

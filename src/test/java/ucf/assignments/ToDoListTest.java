@@ -182,4 +182,23 @@ public class ToDoListTest extends ApplicationTest {
                               }
         });
     }
+
+    // 18, 20
+    @Test
+    void should_save_load() {
+        TodoList list = new TodoList("todo");
+        list.addTask(new Task("Task 1", "2021-10-01"));
+        list.addTask(new Task("Task 2", "2021-10-02"));
+        list.addTask(new Task("Task 3", "2021-10-02"));
+        todolistController.setToDoList(list);
+        todolistController.taskList.getItems().get(2).markCompleted();
+
+        todolistController.saveTaskList();
+        todolistController.loadTaskList();
+
+        assertEquals(3,todolistController.allList.getItems().size());
+    }
+
+
+
 }

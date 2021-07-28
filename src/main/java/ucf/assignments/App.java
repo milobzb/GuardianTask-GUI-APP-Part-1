@@ -11,9 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Bahr
- */
+
 public class App extends Application {
 
     public static List<TodoList> todoLists = new ArrayList<>();

@@ -1,6 +1,8 @@
 package ucf.assignments;
 
+import com.sun.javafx.scene.control.ContextMenuContent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,4 +83,27 @@ class HomeTest extends ApplicationTest {
         assertEquals(1, homeController.todoList.getItems().size());
         assertEquals("New Title", homeController.todoList.getItems().get(0).getTitle());
     }
+
+    private <T extends Node> T find(String query) {
+        return (T) lookup(query).queryAll().iterator().next();
+    }
+
+    // 17, 19
+    @Test
+    void should_save_load() {
+        assertEquals(0, homeController.todoList.getItems().size());
+
+        lookup("#toDoListTextField").queryAs(TextField.class).setText("testcase1");
+        final Button button = lookup("#addButton").queryAs(Button.class); // requires your button to be tagged with setId("button")
+        button.fire();
+
+        lookup("#toDoListTextField").queryAs(TextField.class).setText("testcase2");
+        button.fire();
+
+        homeController.saveTodoList();
+        homeController.loadTodoList();
+
+        assertEquals(2,homeController.todoList.getItems().size());
+    }
+
 }

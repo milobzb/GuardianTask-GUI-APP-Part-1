@@ -46,6 +46,8 @@ public class HomeController implements Initializable {
 
         todoList.getItems().add(newList);
 
+//        saveTodoList();
+
         //reset fields
         toDoListTextField.setText("");
     }
@@ -54,6 +56,8 @@ public class HomeController implements Initializable {
     protected void deleteHandler(ActionEvent e) {
         TodoList selectedItem = (TodoList) todoList.getSelectionModel().getSelectedItem();
         todoList.getItems().remove(selectedItem);
+
+//        saveTodoList();
     }
 
     @FXML
@@ -65,6 +69,18 @@ public class HomeController implements Initializable {
 
         // Swap screen
         stage.setScene(new Scene(App.loadToDoListView(selectedItem)));
+
+//        saveTodoList();
+    }
+
+    @FXML
+    protected void onSave(ActionEvent e) {
+        saveTodoList();
+    }
+
+    @FXML
+    protected void onOpen(ActionEvent e) {
+        loadTodoList();
     }
 
     @Override
@@ -83,5 +99,42 @@ public class HomeController implements Initializable {
                 }
         );
         todoList.getItems().addAll(App.todoLists);
+//        loadTodoList();
+    }
+
+    public void loadTodoList() {
+        todoList.getItems().clear();
+        try {
+            FileReader fr = new FileReader("todolist.txt");
+            BufferedReader br = new BufferedReader(fr);
+
+            String line = "";
+            while((line = br.readLine()) != null)
+            {
+                var newList = new TodoList(line);
+                todoList.getItems().add(newList);
+            }
+            fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void saveTodoList() {
+        // whenever add new list, save it to external storage
+        List<TodoList> list = todoList.getItems();
+        try {
+            FileWriter writer = new FileWriter("todolist.txt");
+
+            for (int i = 0; i < list.size(); i++) {
+                TodoList item = list.get(i);
+                writer.write(item.getTitle() + "\n");
+            }
+            writer.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 }
