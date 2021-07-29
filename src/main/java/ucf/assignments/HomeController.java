@@ -120,8 +120,8 @@ public class HomeController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
     public void saveTodoList() {
         // whenever add new list, save it to external storage
         List<TodoList> list = todoList.getItems();

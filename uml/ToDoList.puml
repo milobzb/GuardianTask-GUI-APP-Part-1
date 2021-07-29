@@ -6,31 +6,64 @@ class Task
 class ToDoList
 
 class App {
-TableView<TodoList> todoList
-ObservableList<TodoList> toDoListData
-TableView<Task> tableChron
+List<TodoList> todoLists
+Scene scene
+Stage stage
+
 void start()
+void loadHome()
+void loadToDoList()
+}
+
+class HomeController {
+Button addButton
+Button deleteButton
+Button modifyButton
+TextField toDoListTextField
+TableView<TodoList> todoList
+TableColumn<TodoList, String> col_title
+
+addHandler()
+deleteHandler()
+modifyHandler()
+loadToDoList()
 }
 
 class Task {
 SimpleStringProperty description
 SimpleStringProperty dueDate
 SimpleBooleanProperty completed
-SimpleStringProperty getDescription()
-void setDescription()
-SimpleStringProperty getDueDate()
-void setDuedate()
-SimpleBooleanProperty isCompleted()
-void setCompleted()
+
 }
 
 class ToDoList {
 SimpleStringProperty title
 ObservableList<Task> tasks
-SimpleStringProperty getTitle()
-void setTitle()
-ObservableList<Task> getTasks()
-void addTask()
 }
+
+class ToDoListController {
+
+    Button addButton;
+    Button deleteButton;
+    Button markAsCompletedButton;
+    Button backToHomeButton;
+    Button toggleTable;
+    TextField titleTextField;
+    DatePicker datePicker;
+    TableView<Task> taskList;
+    TableView<Task> allList = new TableView<>();
+    TableColumn<Task, String> col_description;
+    TableColumn<Task, String> col_due_date;
+    TableColumn<Task, String> col_completed;
+
+    addHandler()
+    deleteHandler()
+    modifyHandler()
+    saveToDoList()
+}
+App..>ToDoListController
+ToDoListController..>ToDoList
+App..>HomeController
+ToDoList..> Task
 
 @enduml
