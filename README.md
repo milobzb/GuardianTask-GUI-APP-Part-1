@@ -1,4 +1,4 @@
-# 📝 To-Do List GUI App - Part 1
+# 📝 GuardianTask GUI App - Part 1
 
 A simple and interactive **To-Do List GUI Application**, built to manage daily tasks efficiently. This is the **first part** of a multi-phase project, focusing on the foundational features and user interface.
 
